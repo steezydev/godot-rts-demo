@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://0bm6v2m3l8ti"]
+
+[ext_resource type="PackedScene" uid="uid://bfvp5fbb8n4lo" path="res://assets/CommonTree_1.glb" id="1_b5fbs"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_024kt"]
+radius = 0.164452
+
+[node name="Tree_Oak" type="StaticBody3D"]
+
+[node name="Model" parent="." instance=ExtResource("1_b5fbs")]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1.5, 0, 0, 0, 2, 0, 0, 0, 1.5, 0, 2, 0)
+shape = SubResource("CapsuleShape3D_024kt")

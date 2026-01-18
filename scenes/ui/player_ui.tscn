@@ -1,0 +1,47 @@
+[gd_scene load_steps=6 format=3 uid="uid://dbftnf0ddefs3"]
+
+[ext_resource type="Shader" uid="uid://bk0k5m6gt6ihp" path="res://shaders/segmented_progress.gdshader" id="1_s4ogp"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_vu4vs"]
+font_size = 30
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2sf84"]
+shader = ExtResource("1_s4ogp")
+shader_parameter/segment_count = 5
+shader_parameter/segment_gap = 0.02
+shader_parameter/gap_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Gradient" id="Gradient_s4ogp"]
+colors = PackedColorArray(2.40654e-07, 0.623681, 0.29798, 1, 0, 0.623529, 0.298039, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_2sf84"]
+gradient = SubResource("Gradient_s4ogp")
+width = 249
+height = 20
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 250.0
+offset_bottom = 80.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Some text"
+label_settings = SubResource("LabelSettings_vu4vs")
+horizontal_alignment = 1
+
+[node name="HealthBar" type="TextureProgressBar" parent="VBoxContainer"]
+material = SubResource("ShaderMaterial_2sf84")
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+value = 100.0
+texture_progress = SubResource("GradientTexture2D_2sf84")

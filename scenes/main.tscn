@@ -1,0 +1,43 @@
+[gd_scene load_steps=9 format=3 uid="uid://cmrp7lbg6w30y"]
+
+[ext_resource type="PackedScene" uid="uid://cml37ibd6lujv" path="res://scenes/character.tscn" id="1_o5qli"]
+[ext_resource type="Script" uid="uid://116wbu8mqad0" path="res://scripts/camera/camera_3d.gd" id="2_0wfyh"]
+[ext_resource type="PackedScene" uid="uid://dyo6qypybt83y" path="res://scenes/click_marker.tscn" id="3_sugp2"]
+[ext_resource type="PackedScene" uid="uid://ddwepv7tan83r" path="res://scenes/mob.tscn" id="4_jyhfs"]
+[ext_resource type="PackedScene" uid="uid://by7l0lmwlf5o0" path="res://scenes/maps/playground_1.tscn" id="5_tbgi4"]
+
+[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_tbgi4"]
+
+[sub_resource type="Sky" id="Sky_tefeu"]
+sky_material = SubResource("PhysicalSkyMaterial_tbgi4")
+
+[sub_resource type="Environment" id="Environment_o6xl0"]
+background_mode = 2
+background_energy_multiplier = 1.5
+sky = SubResource("Sky_tefeu")
+sky_custom_fov = 178.8
+
+[node name="Main" type="Node"]
+
+[node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("target")]
+transform = Transform3D(0.707107, -0.541675, 0.454519, 0, 0.642788, 0.766044, -0.707107, -0.541675, 0.454519, 10, 15, 10)
+script = ExtResource("2_0wfyh")
+target = NodePath("../Character")
+
+[node name="Character" parent="." instance=ExtResource("1_o5qli")]
+
+[node name="ClickMarker" parent="." instance=ExtResource("3_sugp2")]
+
+[node name="Mob" parent="." instance=ExtResource("4_jyhfs")]
+transform = Transform3D(-0.764685, 0, 0.644404, 0, 1, 0, -0.644404, 0, -0.764685, -10.1276, 0, 11.1094)
+
+[node name="Map_Playground_1" parent="." instance=ExtResource("5_tbgi4")]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_o6xl0")
+
+[node name="Node3D" type="Node3D" parent="."]
+transform = Transform3D(0.664103, 0.43206, -0.610157, -0.420624, 0.890618, 0.172844, 0.618096, 0.14186, 0.773197, 0, 0, 0)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Node3D"]
+transform = Transform3D(0.780431, -0.625243, 2.50093e-08, 2.89692e-09, 4.36153e-08, 1, -0.625243, -0.780431, 3.585e-08, 0, 60, 0)

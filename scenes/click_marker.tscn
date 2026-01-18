@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://dyo6qypybt83y"]
+
+[ext_resource type="Script" uid="uid://cym7momnv3w0n" path="res://scripts/ui/click_marker.gd" id="1_f7h7m"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vun3v"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0, 0.596, 0, 0.7)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_f7h7m"]
+material = SubResource("StandardMaterial3D_vun3v")
+size = Vector2(0.5, 0.5)
+
+[node name="ClickMarker" type="Node3D"]
+script = ExtResource("1_f7h7m")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_f7h7m")

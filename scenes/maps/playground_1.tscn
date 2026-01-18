@@ -1,0 +1,50 @@
+[gd_scene load_steps=9 format=3 uid="uid://by7l0lmwlf5o0"]
+
+[ext_resource type="Texture2D" uid="uid://dthrkq3ng7msj" path="res://assets/texture_07.png" id="1_rxwqn"]
+[ext_resource type="PackedScene" uid="uid://0bm6v2m3l8ti" path="res://scenes/props/tree_oak.tscn" id="5_am6j0"]
+[ext_resource type="PackedScene" uid="uid://bfadimacim0j" path="res://scenes/props/rock_1.tscn" id="5_h8i73"]
+[ext_resource type="PackedScene" uid="uid://buhoriw1pnis5" path="res://assets/Plant_1.glb" id="5_i1alb"]
+[ext_resource type="PackedScene" uid="uid://6c6icsjmkalw" path="res://scenes/props/tree_birch.tscn" id="5_rxwqn"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tefeu"]
+albedo_color = Color(0.488794, 0.479849, 0.476004, 1)
+albedo_texture = ExtResource("1_rxwqn")
+roughness = 0.9
+anisotropy = 1.0
+uv1_scale = Vector3(0.1, 0.1, 0.1)
+uv1_triplanar = true
+uv1_world_triplanar = true
+uv2_world_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_obt2a"]
+material = SubResource("StandardMaterial3D_tefeu")
+size = Vector3(40, 2, 40)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vk0ey"]
+size = Vector3(40, 2, 40)
+
+[node name="Map_Playground_1" type="Node3D"]
+
+[node name="Ground" type="StaticBody3D" parent="." groups=["ground"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+collision_layer = 2
+collision_mask = 13
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+mesh = SubResource("BoxMesh_obt2a")
+skeleton = NodePath("../CollisionShape3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+shape = SubResource("BoxShape3D_vk0ey")
+
+[node name="Plant_12" parent="." instance=ExtResource("5_i1alb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.58828, 0.0280522, 15.7547)
+
+[node name="Tree_Birch" parent="." instance=ExtResource("5_rxwqn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.4844, 0, 13.9812)
+
+[node name="Tree_Oak" parent="." instance=ExtResource("5_am6j0")]
+transform = Transform3D(0.557933, 0, -0.829886, 0, 1, 0, 0.829886, 0, 0.557933, -9.80101, 0, 4.07011)
+
+[node name="Rock_1" parent="." instance=ExtResource("5_h8i73")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.79406, 0, 12.9797)
