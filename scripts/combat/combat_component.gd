@@ -4,6 +4,7 @@ extends Node
 signal chase_target(target_position: Vector3)
 signal chase_stopped()
 signal attack_executed(damage: float, target: Node3D)
+signal attack_stopped()
 
 @export var actor: CharacterBody3D
 @export var attack_range: float = 2.0
@@ -41,7 +42,8 @@ func _physics_process(delta: float) -> void:
 			if time_since_last_attack >= attack_cooldown:
 				execute_attack()
 				time_since_last_attack = 0.0  # Reset timer
-
+	elif is_auto_attacking and not selected_target:
+		stop_auto_attack()
 
 func start_auto_attack() -> void:
 	if (!selected_target):
@@ -57,7 +59,7 @@ func start_auto_attack() -> void:
 
 func stop_auto_attack() -> void:
 	is_auto_attacking = false
-	#time_since_last_attack = 0.0
+	attack_stopped.emit()
 
 # Execute the attack sequence, but not the damage dealing
 func execute_attack() -> void:

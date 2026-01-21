@@ -911,7 +911,7 @@ script = ExtResource("3_d4cuo")
 
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("5_i5xrm")
-max_health = 2000.0
+max_health = 100.0
 
 [node name="UI" type="Node3D" parent="."]
 
