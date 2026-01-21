@@ -1,9 +1,11 @@
-[gd_scene load_steps=15 format=4 uid="uid://ddwepv7tan83r"]
+[gd_scene load_steps=21 format=4 uid="uid://ddwepv7tan83r"]
 
 [ext_resource type="Script" uid="uid://w5qsgb1xsoqe" path="res://scripts/state_machine.gd" id="1_4are2"]
-[ext_resource type="Script" uid="uid://dyut1ysdx4c27" path="res://scripts/mob/mob.gd" id="1_71rcx"]
+[ext_resource type="Script" uid="uid://cdellshkem7p6" path="res://scripts/mob/mob_skeleton.gd" id="1_75awy"]
 [ext_resource type="Script" uid="uid://cxh5ua8j6y7dq" path="res://scripts/mob/states/idle_state.gd" id="2_bsing"]
 [ext_resource type="Script" uid="uid://bplcc2nn504xu" path="res://scripts/mob/states/running_state.gd" id="3_d4cuo"]
+[ext_resource type="Script" uid="uid://dwbnulffg0ffx" path="res://scripts/combat/health_component.gd" id="5_i5xrm"]
+[ext_resource type="Shader" uid="uid://bk0k5m6gt6ihp" path="res://shaders/segmented_progress.gdshader" id="6_osvpx"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_glqd0"]
 resource_name = "Skeleton"
@@ -769,10 +771,27 @@ _data = {
 radius = 0.719526
 height = 3.08559
 
-[node name="Mob" type="CharacterBody3D"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_n7ihd"]
+viewport_path = NodePath("UI/SubViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_o0aea"]
+shader = ExtResource("6_osvpx")
+shader_parameter/segment_count = 5
+shader_parameter/segment_gap = 0.02
+shader_parameter/gap_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Gradient" id="Gradient_s4ogp"]
+colors = PackedColorArray(0.93333334, 0.19215687, 0, 1, 0.93270797, 0.19190297, 5.7756904e-07, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_d3qim"]
+gradient = SubResource("Gradient_s4ogp")
+width = 249
+height = 20
+
+[node name="MobSkeleton" type="CharacterBody3D"]
 collision_layer = 8
 collision_mask = 3
-script = ExtResource("1_71rcx")
+script = ExtResource("1_75awy")
 
 [node name="Model" type="Node3D" parent="."]
 transform = Transform3D(0.65, 0, 0, 0, 0.65, 0, 0, 0, 0.65, 0, 0, 0)
@@ -889,3 +908,23 @@ script = ExtResource("2_bsing")
 
 [node name="RunningState" type="Node" parent="StateMachine"]
 script = ExtResource("3_d4cuo")
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("5_i5xrm")
+max_health = 2000.0
+
+[node name="UI" type="Node3D" parent="."]
+
+[node name="Sprite3D" type="Sprite3D" parent="UI"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.848169, 0)
+billboard = 1
+texture = SubResource("ViewportTexture_n7ihd")
+
+[node name="SubViewport" type="SubViewport" parent="UI"]
+size = Vector2i(250, 20)
+
+[node name="HealthBar" type="TextureProgressBar" parent="UI/SubViewport"]
+material = SubResource("ShaderMaterial_o0aea")
+custom_minimum_size = Vector2(0, 20)
+value = 100.0
+texture_progress = SubResource("GradientTexture2D_d3qim")
