@@ -1,3 +1,4 @@
+class_name Player
 extends CharacterBody3D
 
 @onready var state_machine: StateMachine = $StateMachine
@@ -5,8 +6,18 @@ extends CharacterBody3D
 @onready var movement_component: MovementComponent = $MovementComponent
 @onready var input_handler: InputHandler = $InputHandler
 @onready var combat_component: CombatComponent = $CombatComponent
-
 @onready var animation_player: AnimationPlayer = $Model/AnimationPlayer
+
+func _ready() -> void:
+	input_handler.position_selected.connect(_on_position_selected)
+	input_handler.target_selected.connect(_on_target_selected)
+	input_handler.attack_triggered.connect(_on_attack_triggered)
+
+	movement_component.destination_reached.connect(stop_moving)
+
+	combat_component.chase_target.connect(_on_chase_target)
+	combat_component.chase_stopped.connect(_on_chase_stopped)
+	combat_component.attack_executed.connect(_on_attack_executed)
 
 func move(pos: Vector3) -> void:
 	movement_component.selected_position = pos
@@ -17,16 +28,6 @@ func stop_moving() -> void:
 	movement_component.selected_position = Vector3.ZERO
 	if state_machine.get_current_state_name() != 'IdleState':
 		state_machine.change_state("IdleState")
-
-func _ready() -> void:
-	input_handler.position_selected.connect(_on_position_selected)
-	input_handler.target_selected.connect(_on_target_selected)
-	input_handler.attack_triggered.connect(_on_attack_triggered)
-
-	movement_component.destination_reached.connect(stop_moving)
-
-	combat_component.target_out_of_range.connect(_on_target_out_of_range)
-	combat_component.attack_executed.connect(_on_attack_executed)
 
 func _on_destination_reached() -> void:
 	stop_moving()
@@ -46,8 +47,11 @@ func _on_attack_triggered() -> void:
 	if combat_component.selected_target:
 		combat_component.start_auto_attack()
 
-func _on_target_out_of_range(pos: Vector3) -> void:
+func _on_chase_target(pos: Vector3) -> void:
 	move(pos)
+
+func _on_chase_stopped() -> void:
+	stop_moving()
 
 func _on_attack_executed(damage: float, target: CharacterBody3D) -> void:
 	if state_machine.get_current_state_name() == 'RunningState':
@@ -56,6 +60,8 @@ func _on_attack_executed(damage: float, target: CharacterBody3D) -> void:
 	if state_machine.get_current_state_name() != 'AttackState':
 		state_machine.change_state("AttackState")
 
+	#TODO: Not sure if that's a good place to trigger the attack animation
+	#TODO: But it seems to work for now and different animations can be passed based on the attack type
 	_play_attack_animation()
 	print("Attack executed: ", damage, " on ", target)
 
