@@ -2,9 +2,7 @@ class_name MobSkeleton
 extends Mob
 
 @onready var health_component: HealthComponent = $HealthComponent
-
 @onready var health_bar: TextureProgressBar = $UI/SubViewport/HealthBar
-
 
 func _ready() -> void:
 	add_to_group("mobs")
