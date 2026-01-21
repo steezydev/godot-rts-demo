@@ -22,30 +22,12 @@ func _handle_attack_input() -> void:
 	attack_triggered.emit()
 
 func _handle_mouse_input(event: InputEventMouseButton) -> void:
-	if event.button_index == MOUSE_BUTTON_LEFT:
-		_handle_mouse_input_left(event)
-		return
-
-	if event.button_index == MOUSE_BUTTON_RIGHT:
-		_handle_mouse_input_right(event)
-		return
-
-func _handle_mouse_input_right(event: InputEventMouseButton) -> void:
-	# Only raycast to ground for movement on right mouse button click
+	# Only raycast to ground for movement on right mouse button click by default
 	var mask: int = 2
-	var result: Dictionary = _raycast_to_world(event.position, mask)
-	print(result)
+	if event.button_index == MOUSE_BUTTON_LEFT:
+		# Raycast to ground and mobs (+other targets) on left mouse button click
+		mask = 10
 
-	if !result || !result.collider:
-		return
-
-	# Move to ground position
-	if result.collider.is_in_group("ground"):
-		position_selected.emit(result.position)
-
-func _handle_mouse_input_left(event: InputEventMouseButton) -> void:
-	# Raycast to ground and mobs (+other targets) on left mouse button click
-	var mask: int = 10
 	var result: Dictionary = _raycast_to_world(event.position, mask)
 	print(result)
 
