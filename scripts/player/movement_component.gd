@@ -13,18 +13,6 @@ signal destination_reached
 var selected_position: Vector3
 var is_moving: bool = false
 
-func move_to_position(position: Vector3) -> void:
-	selected_position = position
-	is_moving = true
-	movement_started.emit(position)
-
-func stop_movement() -> void:
-	selected_position = Vector3.ZERO
-	is_moving = false
-	if actor:
-		actor.velocity = Vector3.ZERO
-	movement_stopped.emit()
-
 func _physics_process(delta: float) -> void:
 	if not selected_position:
 		return
@@ -43,3 +31,15 @@ func _physics_process(delta: float) -> void:
 	else:
 		destination_reached.emit()
 		stop_movement()
+
+func move_to_position(position: Vector3) -> void:
+	selected_position = position
+	is_moving = true
+	movement_started.emit(position)
+
+func stop_movement() -> void:
+	selected_position = Vector3.ZERO
+	is_moving = false
+	if actor:
+		actor.velocity = Vector3.ZERO
+	movement_stopped.emit()
