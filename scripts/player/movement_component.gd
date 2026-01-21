@@ -35,7 +35,7 @@ func _physics_process(delta: float) -> void:
 func move_to_position(position: Vector3) -> void:
 	selected_position = position
 	is_moving = true
-	movement_started.emit(position)
+	movement_started.emit(position, move_speed)
 
 func stop_movement() -> void:
 	selected_position = Vector3.ZERO

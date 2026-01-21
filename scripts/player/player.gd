@@ -18,14 +18,15 @@ func _ready() -> void:
 	combat_component.chase_target.connect(_on_chase_target)
 	combat_component.chase_stopped.connect(_on_chase_stopped)
 	combat_component.attack_executed.connect(_on_attack_executed)
+	combat_component.attack_stopped.connect(_on_attack_stopped)
 
 func move(pos: Vector3) -> void:
-	movement_component.selected_position = pos
+	movement_component.move_to_position(pos)
 	if state_machine.get_current_state_name() != 'RunningState':
 		state_machine.change_state("RunningState")
 
 func stop_moving() -> void:
-	movement_component.selected_position = Vector3.ZERO
+	movement_component.stop_movement()
 	if state_machine.get_current_state_name() != 'IdleState':
 		state_machine.change_state("IdleState")
 
@@ -64,6 +65,11 @@ func _on_attack_executed(damage: float, target: CharacterBody3D) -> void:
 	#TODO: But it seems to work for now and different animations can be passed based on the attack type
 	_play_attack_animation()
 	print("Attack executed: ", damage, " on ", target)
+
+func _on_attack_stopped() -> void:
+	# Reset any attack-related states
+	if state_machine.get_current_state_name() == 'AttackState':
+		state_machine.change_state("IdleState")
 
 func _play_attack_animation() -> void:
 	if animation_player:
