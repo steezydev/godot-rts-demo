@@ -1,21 +1,30 @@
-[gd_scene load_steps=9 format=3 uid="uid://cmrp7lbg6w30y"]
+[gd_scene load_steps=10 format=3 uid="uid://cmrp7lbg6w30y"]
 
 [ext_resource type="PackedScene" uid="uid://cml37ibd6lujv" path="res://scenes/player/player.tscn" id="1_o5qli"]
 [ext_resource type="Script" uid="uid://116wbu8mqad0" path="res://scripts/camera/camera_3d.gd" id="2_0wfyh"]
 [ext_resource type="PackedScene" uid="uid://dyo6qypybt83y" path="res://scenes/click_marker.tscn" id="3_sugp2"]
 [ext_resource type="PackedScene" uid="uid://ddwepv7tan83r" path="res://scenes/mob/mob_skeleton.tscn" id="4_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://by7l0lmwlf5o0" path="res://scenes/maps/playground_1.tscn" id="5_tbgi4"]
+[ext_resource type="Texture2D" uid="uid://dwaxr8xuyak3o" path="res://assets/lonely_road_afternoon_puresky_4k.exr" id="5_tefeu"]
 
-[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_tbgi4"]
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_o6xl0"]
+panorama = ExtResource("5_tefeu")
+energy_multiplier = 0.3
 
 [sub_resource type="Sky" id="Sky_tefeu"]
-sky_material = SubResource("PhysicalSkyMaterial_tbgi4")
+sky_material = SubResource("PanoramaSkyMaterial_o6xl0")
 
 [sub_resource type="Environment" id="Environment_o6xl0"]
 background_mode = 2
-background_energy_multiplier = 1.5
 sky = SubResource("Sky_tefeu")
-sky_custom_fov = 178.8
+sky_rotation = Vector3(0, 3.0298915, 0)
+tonemap_exposure = 1.2
+fog_mode = 1
+fog_aerial_perspective = 1.0
+fog_sky_affect = 0.2
+volumetric_fog_density = 0.01
+volumetric_fog_length = 20.0
+volumetric_fog_ambient_inject = 0.2
 
 [node name="Main" type="Node"]
 
@@ -33,11 +42,14 @@ target = NodePath("../Character")
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_o6xl0")
 
-[node name="Node3D" type="Node3D" parent="."]
-transform = Transform3D(0.664103, 0.43206, -0.610157, -0.420624, 0.890618, 0.172844, 0.618096, 0.14186, 0.773197, 0, 0, 0)
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.22872308, -0.7659646, 0.60081947, -0.26704583, 0.6428718, 0.71791536, -0.9361476, 0.0037574794, -0.35158727, 13.306374, 12.891315, -10.8845415)
+shadow_enabled = true
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Node3D"]
-transform = Transform3D(0.780431, -0.625243, 2.50093e-08, 2.89692e-09, 4.36153e-08, 1, -0.625243, -0.780431, 3.585e-08, 0, 60, 0)
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="DirectionalLight3D"]
+transform = Transform3D(0.04942879, -0.8920201, 0.44928497, -0.06353879, 0.44611526, 0.89271736, -0.9967546, -0.07267295, -0.034626856, 19.508516, 37.492855, -27.135593)
+light_color = Color(0.8439328, 0.93081105, 1, 1)
+light_energy = 0.3
 
 [node name="MobSkeleton" parent="." instance=ExtResource("4_jyhfs")]
 transform = Transform3D(-0.8444495, 0, 0.5356353, 0, 1, 0, -0.5356353, 0, -0.8444495, -9.282912, 0, 9.96936)
