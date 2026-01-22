@@ -4,6 +4,7 @@ extends Node
 signal movement_started(destination: Vector3, speed: float)
 signal movement_stopped
 signal destination_reached
+signal movement_interrupted
 
 @export var actor: CharacterBody3D 
 @export var stopping_distance: float = 0.1
