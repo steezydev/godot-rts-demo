@@ -10,7 +10,7 @@ extends CharacterBody3D
 
 func _ready() -> void:
 	input_handler.position_selected.connect(_on_position_selected)
-	input_handler.target_selected.connect(_on_target_selected)
+	#input_handler.target_selected.connect(_on_target_selected)
 	input_handler.attack_triggered.connect(_on_attack_triggered)
 
 	movement_component.destination_reached.connect(stop_moving)
@@ -40,12 +40,16 @@ func _on_position_selected(pos: Vector3) -> void:
 	else:
 		stop_moving()
 
-func _on_target_selected(target: Mob) -> void:
-	print("Target selected: ", target)
-	combat_component.selected_target = target
+func _on_attack_triggered(target: Mob) -> void:
+	# Call interrupted movement to hide the destination marker
+	if target:
+		# Don't need to keep moving if target is reachable
+		if combat_component.can_reach_target(target):
+			stop_moving()
 
-func _on_attack_triggered() -> void:
-	if combat_component.selected_target:
+		combat_component.selected_target = target
+		
+		movement_component.movement_interrupted.emit()
 		combat_component.start_auto_attack()
 
 func _on_chase_target(pos: Vector3) -> void:
@@ -73,7 +77,7 @@ func _on_attack_stopped() -> void:
 
 func _play_attack_animation() -> void:
 	if animation_player:
-		animation_player.stop()
+		#animation_player.stop()
 
 		animation_player.play("Punch")
 

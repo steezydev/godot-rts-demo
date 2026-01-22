@@ -6,6 +6,7 @@ signal target_selected(target: Mob)
 signal attack_triggered()
 
 var camera: Camera3D
+var selected_target: Mob
 
 func _ready() -> void:
 	camera = get_viewport().get_camera_3d()
@@ -19,7 +20,7 @@ func _input(event: InputEvent) -> void:
 		_handle_attack_input()
 
 func _handle_attack_input() -> void:
-	attack_triggered.emit()
+	attack_triggered.emit(selected_target)
 
 func _handle_mouse_input(event: InputEventMouseButton) -> void:
 	# Only raycast to ground for movement on right mouse button click by default
@@ -36,13 +37,24 @@ func _handle_mouse_input(event: InputEventMouseButton) -> void:
 
 	# Select target if it's a Mob
 	if result.collider is Mob:
-		target_selected.emit(result.collider)
+		_set_selected_target(result.collider)
 		return
 
 	# Move to ground position
 	if result.collider.is_in_group("ground"):
 		position_selected.emit(result.position)
 		return
+
+func _set_selected_target(target: Mob) -> void:
+	# Deselect previous target
+	if selected_target and selected_target.has_method("set_selected"):
+		selected_target.set_selected(false)
+	
+	# Select new target
+	selected_target = target
+	if selected_target and selected_target.has_method("set_selected"):
+		selected_target.set_selected(true)
+		target_selected.emit(selected_target)
 
 func _raycast_to_world(screen_pos: Vector2, mask: int) -> Dictionary:
 	var from: Vector3 = camera.project_ray_origin(screen_pos)
