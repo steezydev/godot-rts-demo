@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bu8fxope7o176"]
+
+[ext_resource type="Script" uid="uid://doey46fip8drl" path="res://scenes/ui/selection_circle.gd" id="1_4n8lm"]
+
+[node name="SelectionCircle" type="Node3D"]
+script = ExtResource("1_4n8lm")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]

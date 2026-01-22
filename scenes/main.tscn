@@ -52,4 +52,7 @@ light_color = Color(0.8439328, 0.93081105, 1, 1)
 light_energy = 0.3
 
 [node name="MobSkeleton" parent="." instance=ExtResource("4_jyhfs")]
-transform = Transform3D(-0.8444495, 0, 0.5356353, 0, 1, 0, -0.5356353, 0, -0.8444495, -9.282912, 0, 9.96936)
+transform = Transform3D(-0.43439803, 0, 0.9007211, 0, 1, 0, -0.9007211, 0, -0.43439803, -9.282912, 0, 9.288312)
+
+[node name="MobSkeleton2" parent="." instance=ExtResource("4_jyhfs")]
+transform = Transform3D(-0.8627785, 0, 0.5055821, 0, 1, 0, -0.5055821, 0, -0.8627785, -8.577553, 0, 12.45187)

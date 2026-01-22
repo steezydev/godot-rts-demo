@@ -3,6 +3,7 @@ extends Mob
 
 @onready var health_component: HealthComponent = $HealthComponent
 @onready var health_bar: TextureProgressBar = $UI/SubViewport/HealthBar
+@onready var selection_circle: SelectionCircle = $SelectionCircle
 
 func _ready() -> void:
 	add_to_group("mobs")
@@ -13,6 +14,13 @@ func _ready() -> void:
 
 func get_health_component() -> HealthComponent:
 	return health_component
+
+func set_selected(is_selected: bool) -> void:
+	if selection_circle:
+		if is_selected:
+			selection_circle.show_circle()
+		else:
+			selection_circle.hide_circle()
 
 func _on_health_changed(current: float, maximum: float) -> void:
 	print('Health changed: ',  health_component.get_health_percentage() * 100.0)
