@@ -8,7 +8,9 @@ var is_moving: bool = false
 
 func _ready() -> void:
 	input_handler.position_selected.connect(_on_position_selected)
-	movement_component.destination_reached.connect(_on_destination_reached)
+	movement_component.destination_reached.connect(_hide_marker)
+	movement_component.movement_stopped.connect(_hide_marker)
+	movement_component.movement_interrupted.connect(_hide_marker)
 	_init_marker()
 
 func _on_position_selected(pos: Vector3) -> void:
@@ -16,7 +18,7 @@ func _on_position_selected(pos: Vector3) -> void:
 	destination_marker.global_position = pos + Vector3(0, 0.05, 0) 
 	destination_marker.visible = true
 
-func _on_destination_reached() -> void:
+func _hide_marker() -> void:
 	destination_marker.visible = false
 
 func _init_marker() -> void:
